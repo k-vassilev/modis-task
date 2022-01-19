@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState } from "react";
+import createUser from "../services/createUser";
 
 const SubmissionForm = () => {
 	const [color, setColor] = useState("#000000");
@@ -9,81 +10,111 @@ const SubmissionForm = () => {
 		e.preventDefault();
 
 		const formData = new FormData(e.target);
-		const {firstName, lastName, email} = Object.fromEntries(formData);
+		const { firstName, lastName, email } = Object.fromEntries(formData);
 
 		const userData = {
 			firstName,
 			lastName,
 			email,
-		}
+		};
 
 		console.log(userData);
-		if(validUser){
-			setBtnBg("#00ff00");
-		// try { await createUser(userData);
 
-		// } catch (err) {
-	
-		// }
-		}else{
-			setBtnBg("#FF5733");
+		if (validUser) {
+			setBtnBg("#00ff00"); // mock logic as the backend is not working
+			try {
+				await createUser(userData);
+				setBtnBg("#00ff00"); // green on server status code 200
+			} catch (err) {
+				setBtnBg("#FF5733"); // red on any other server status
+			}
+		} else {
+			setBtnBg("#FF5733"); // mock logic as the backend is not working
 		}
-		
-
-	}
+	};
 
 	const emailChangeHandler = () => {
-		setColor("#" + Math.floor(Math.random() * 0xFFFFFF).toString(16));
-    };
+		setColor("#" + Math.floor(Math.random() * 0xffffff).toString(16));
+	};
 
 	const firstNameChangeHandler = (e) => {
-		setColor("#" + Math.floor(Math.random() * 0xFFFFFF).toString(16));
-        let currentName = e.target.value;
-        if (currentName.length < 5) {
+		setColor("#" + Math.floor(Math.random() * 0xffffff).toString(16));
+		let currentName = e.target.value;
+		if (currentName.length < 5) {
 			setValidUser(false);
-        }else{
+		} else {
 			setValidUser(true);
 		}
-    };
+	};
 
 	const lastNameChangeHandler = (e) => {
-		setColor("#" + Math.floor(Math.random() * 0xFFFFFF).toString(16));
-        let currentName = e.target.value;
-        if (currentName.length < 5) {
+		setColor("#" + Math.floor(Math.random() * 0xffffff).toString(16));
+		let currentName = e.target.value;
+		if (currentName.length < 5) {
 			setValidUser(false);
-        }else{
+		} else {
 			setValidUser(true);
 		}
-    };
-	
-	return(
+	};
+
+	return (
 		<section>
-            <form id="submission-form" method="POST" onSubmit={onRegisterSubmitHandler}>
-                <fieldset>
-                    <legend>Submission Form</legend>
-                    <span className="field">
-                        <label htmlFor="firstName">First Name</label>
-                        <span className="input">
-                            <input type="text" style={{borderColor:color}} name="firstName" id="firstName" placeholder="First Name" onBlur={firstNameChangeHandler}/>
-                        </span>
-                    </span>
+			<form
+				id="submission-form"
+				method="POST"
+				onSubmit={onRegisterSubmitHandler}
+			>
+				<fieldset>
+					<legend>Submission Form</legend>
 					<span className="field">
-                        <label htmlFor="username">Last Name</label>
-                        <span className="input">
-                            <input type="text" style={{borderColor:color}} name="lastName" id="lastName" placeholder="Last Name" onBlur={lastNameChangeHandler}/>
-                        </span>
-                    </span>
+						<label htmlFor="firstName">First Name</label>
+						<span className="input">
+							<input
+								type="text"
+								style={{ borderColor: color }}
+								name="firstName"
+								id="firstName"
+								placeholder="First Name"
+								onBlur={firstNameChangeHandler}
+							/>
+						</span>
+					</span>
 					<span className="field">
-                        <label htmlFor="email">Email</label>
-                        <span className="input">
-                            <input type="text" style={{borderColor:color}} name="email" id="email" placeholder="Email" onBlur={emailChangeHandler}/>
-                        </span>
-                    </span>
-                    <input className="button submit" type="submit" style={{background:btnBg}} value="Submit"/>
-                </fieldset>
-            </form>
-        </section>
-	)
-}
+						<label htmlFor="username">Last Name</label>
+						<span className="input">
+							<input
+								type="text"
+								style={{ borderColor: color }}
+								name="lastName"
+								id="lastName"
+								placeholder="Last Name"
+								onBlur={lastNameChangeHandler}
+							/>
+						</span>
+					</span>
+					<span className="field">
+						<label htmlFor="email">Email</label>
+						<span className="input">
+							<input
+								type="text"
+								style={{ borderColor: color }}
+								name="email"
+								id="email"
+								placeholder="Email"
+								onBlur={emailChangeHandler}
+							/>
+						</span>
+					</span>
+					<input
+						className="button submit"
+						type="submit"
+						style={{ background: btnBg }}
+						value="Submit"
+					/>
+				</fieldset>
+			</form>
+		</section>
+	);
+};
 
 export default SubmissionForm;
