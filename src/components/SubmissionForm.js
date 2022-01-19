@@ -1,5 +1,5 @@
 import { useState } from "react";
-import createUser from "../services/createUser";
+import createUser from "../service/createUser";
 
 const SubmissionForm = () => {
 	const [color, setColor] = useState("#000000");
@@ -17,8 +17,6 @@ const SubmissionForm = () => {
 			lastName,
 			email,
 		};
-
-		console.log(userData);
 
 		if (validUser) {
 			setBtnBg("#00ff00"); // mock logic as the backend is not working
